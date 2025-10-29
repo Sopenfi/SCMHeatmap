@@ -18,12 +18,12 @@ const App: React.FC = () => {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <div className="lg:pr-70 lg:pl-70 md:pr-20 md:pl-20   pt-3 flex flex-col items-center bg-gradient-to-t from-gray-900 to-gray-700">
+    <div className="lg:pr-70 lg:pl-70 md:pr-20 md:pl-20  pt-3 flex flex-col items-center bg-gradient-to-t from-gray-900 to-gray-700">
       <h1 className="text-4xl font-bold">SCM Heatmap</h1>
 
       <BackgroundMusic data={data} timeframe={timeframe} />
 
-      <div className="flex flex-row items-center mb-2 mt-2">
+      <div className="flex sm:flex-row flex-col items-center mb-2 mt-2">
         <TimeframeSelector timeframe={timeframe} setTimeframe={setTimeframe} />
         <div className="text-3xl font-bold text-white ml-6 flex items-center">
           <Change data={data} timeframe={timeframe} />

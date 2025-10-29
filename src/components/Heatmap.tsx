@@ -25,41 +25,41 @@ const Heatmap: React.FC<Props> = ({ data, timeframe }) => {
   return (
     <div className="grid grid-cols-2 gap-0 p-0 pt-0 mt-0 m-10">
       {/* LEFT SIDE */}
-      <div className="col-span-1 grid grid-rows-2">
+      <div className="col-span-1 grid grid-rows-2 h-160">
         <HeatmapBox item={sortedData[0]} timeframe={timeframe} />
         <HeatmapBox item={sortedData[1]} timeframe={timeframe} />
       </div>
 
       {/* RIGHT SIDE */}
-      <div className="grid grid-cols-2 grid-rows-4 gap-0">
+      <div className="grid grid-cols-2 grid-rows-4 gap-0 h-160">
         <HeatmapBox item={sortedData[2]} timeframe={timeframe} />
         <HeatmapBox item={sortedData[3]} timeframe={timeframe} />
         <HeatmapBox item={sortedData[4]} timeframe={timeframe} />
         <HeatmapBox item={sortedData[5]} timeframe={timeframe} />
         <HeatmapBox item={sortedData[6]} timeframe={timeframe} />
 
-        <div className="grid grid-cols-2 grid-rows-1 w-full h-50 gap-0">
+        <div className="grid grid-cols-2 grid-rows-1 w-full h-full gap-0">
           <HeatmapBox item={sortedData[7]} timeframe={timeframe} />
           <HeatmapBox item={sortedData[8]} timeframe={timeframe} />
         </div>
 
-        <div className="grid grid-cols-2 grid-rows-2 w-full h-50 gap-0">
+        <div className="grid grid-cols-2 grid-rows-2 w-full h-full gap-0">
           <HeatmapBox item={sortedData[9]} timeframe={timeframe} />
           <HeatmapBox item={sortedData[10]} timeframe={timeframe} />
           <HeatmapBox item={sortedData[11]} timeframe={timeframe} />
           <HeatmapBox item={sortedData[12]} timeframe={timeframe} />
         </div>
 
-        <div className="grid grid-cols-2 grid-rows-2 w-full h-50 gap-0">
+        <div className="grid grid-cols-2 grid-rows-2 w-full h-full gap-0">
           <HeatmapBox item={sortedData[13]} timeframe={timeframe} />
           <HeatmapBox item={sortedData[14]} timeframe={timeframe} />
 
-          <div className="grid grid-cols-2 grid-rows-1 w-full h-25 gap-0">
+          <div className="grid grid-cols-2 grid-rows-1 w-full h-full gap-0">
             <HeatmapBox item={sortedData[15]} timeframe={timeframe} />
             <HeatmapBox item={sortedData[16]} timeframe={timeframe} />
           </div>
 
-          <div className="grid grid-cols-2 grid-rows-2 w-full h-25 gap-0">
+          <div className="grid grid-cols-2 grid-rows-2 w-full h-full gap-0">
             <HeatmapBox item={sortedData[17]} timeframe={timeframe} />
             <HeatmapBox item={sortedData[18]} timeframe={timeframe} />
             <HeatmapBox item={sortedData[19]} timeframe={timeframe} />
