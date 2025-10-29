@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { MarketItem } from "../types";
 import MoneyRain from "./MoneyRain";
+import canny3 from "/src/music/canny3.mp3";
+import sonicslowed from "/src/music/sonicslowed.mp3";
+import suicidemouse from "src/music/suicidemouse.mp3";
 
 interface BackgroundMusicProps {
   data: MarketItem[];
@@ -78,17 +81,15 @@ const BackgroundMusic: React.FC<BackgroundMusicProps> = ({
       newTrack = "src/music/volvo.mp3"; // 20 - 15
     else if (totalChange.totalDiffPct > 10)
       newTrack = "src/music/canny4.mp3"; // 15-10
-    else if (totalChange.totalDiffPct > 5)
-      newTrack = "src/music/canny3.mp3"; // 10 - 5
+    else if (totalChange.totalDiffPct > 5) newTrack = canny3; // 10 - 5
     else if (totalChange.totalDiffPct > 1)
       newTrack = "src/music/life.mp3"; // 5-1
     else if (totalChange.totalDiffPct > -1)
       newTrack = "src/music/sneakyadventure.mp3"; // 1 - -1
-    else if (totalChange.totalDiffPct > -5)
-      newTrack = "src/music/suicidemouse.mp3"; // -1 - -5
+    else if (totalChange.totalDiffPct > -5) newTrack = suicidemouse; // -1 - -5
     else if (totalChange.totalDiffPct > -10)
       newTrack = "src/music/sonic.mp3"; //-5 - -10
-    else newTrack = "src/music/sonicslowed.mp3";
+    else newTrack = sonicslowed;
     if (newTrack !== currentTrack) {
       setCurrentTrack(newTrack);
     }
