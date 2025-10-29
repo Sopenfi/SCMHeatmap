@@ -18,7 +18,7 @@ const App: React.FC = () => {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <div className="lg:pr-70 lg:pl-70 md:pr-20 md:pl-20  pt-3 flex flex-col items-center bg-gradient-to-t from-gray-900 to-gray-700">
+    <div className="min-h-screen lg:px-70 md:px-20 pt-3 flex flex-col items-center bg-gradient-to-t from-gray-900 to-gray-700">
       <h1 className="text-4xl font-bold">SCM Heatmap</h1>
 
       <BackgroundMusic data={data} timeframe={timeframe} />
