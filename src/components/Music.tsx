@@ -1,9 +1,15 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { MarketItem } from "../types";
 import MoneyRain from "./MoneyRain";
-import canny3 from "/src/music/canny3.mp3";
-import sonicslowed from "/src/music/sonicslowed.mp3";
-import suicidemouse from "src/music/suicidemouse.mp3";
+import canny3 from "../music/canny3.mp3";
+import canny4 from "../music/canny4.mp3";
+import sonicslowed from "../music/sonicslowed.mp3";
+import suicidemouse from "../music/suicidemouse.mp3";
+import sonic from "../music/sonic.mp3";
+import volvo from "../music/volvo.mp3";
+import tequila from "../music/tequila.mp3";
+import life from "../music/life.mp3";
+import sneakyadventure from "../music/sneakyadventure.mp3";
 
 interface BackgroundMusicProps {
   data: MarketItem[];
@@ -76,19 +82,15 @@ const BackgroundMusic: React.FC<BackgroundMusicProps> = ({
   useEffect(() => {
     let newTrack = currentTrack;
 
-    if (totalChange.totalDiffPct > 20) newTrack = "src/music/Tequila.mp3";
-    else if (totalChange.totalDiffPct > 15)
-      newTrack = "src/music/volvo.mp3"; // 20 - 15
-    else if (totalChange.totalDiffPct > 10)
-      newTrack = "src/music/canny4.mp3"; // 15-10
+    if (totalChange.totalDiffPct > 20) newTrack = tequila;
+    else if (totalChange.totalDiffPct > 15) newTrack = volvo; // 20 - 15
+    else if (totalChange.totalDiffPct > 10) newTrack = canny4; // 15-10
     else if (totalChange.totalDiffPct > 5) newTrack = canny3; // 10 - 5
-    else if (totalChange.totalDiffPct > 1)
-      newTrack = "src/music/life.mp3"; // 5-1
+    else if (totalChange.totalDiffPct > 1) newTrack = life; // 5-1
     else if (totalChange.totalDiffPct > -1)
-      newTrack = "src/music/sneakyadventure.mp3"; // 1 - -1
+      newTrack = sneakyadventure; // 1 - -1
     else if (totalChange.totalDiffPct > -5) newTrack = suicidemouse; // -1 - -5
-    else if (totalChange.totalDiffPct > -10)
-      newTrack = "src/music/sonic.mp3"; //-5 - -10
+    else if (totalChange.totalDiffPct > -10) newTrack = sonic; //-5 - -10
     else newTrack = sonicslowed;
     if (newTrack !== currentTrack) {
       setCurrentTrack(newTrack);
