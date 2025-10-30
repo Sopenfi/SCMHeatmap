@@ -10,7 +10,8 @@ import volvo from "../music/volvo.mp3";
 import tequila from "../music/tequila.mp3";
 import life from "../music/life.mp3";
 import sneakyadventure from "../music/sneakyadventure.mp3";
-
+import cry from "../music/Cry.mp3";
+import burningmemory from "../music/burningmemory.mp3";
 interface BackgroundMusicProps {
   data: MarketItem[];
   timeframe: "6h" | "24h" | "72h" | "7days" | "30days";
@@ -91,7 +92,9 @@ const BackgroundMusic: React.FC<BackgroundMusicProps> = ({
       newTrack = sneakyadventure; // 1 - -1
     else if (totalChange.totalDiffPct > -5) newTrack = suicidemouse; // -1 - -5
     else if (totalChange.totalDiffPct > -10) newTrack = sonic; //-5 - -10
-    else newTrack = sonicslowed;
+    else if (totalChange.totalDiffPct > -15) newTrack = sonicslowed; //-10 - -15
+    else if (totalChange.totalDiffPct > -20) newTrack = cry; //-15 - -20
+    else newTrack = burningmemory;
     if (newTrack !== currentTrack) {
       setCurrentTrack(newTrack);
     }
