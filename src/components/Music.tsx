@@ -163,7 +163,7 @@ const BackgroundMusic: React.FC<BackgroundMusicProps> = ({
   return (
     <div className="flex flex-row items-center gap-2 mt-4">
       <audio ref={audioRef} src="src/music/volvo.mp3" loop />
-      <MoneyRain active={isPlaying && currentTrack.includes("Tequila.mp3")} />
+      <MoneyRain active={isPlaying && currentTrack.includes("tequila")} />
       <button
         onClick={togglePlay}
         className="px-3 py-1 bg-blue-600 text-white rounded"
