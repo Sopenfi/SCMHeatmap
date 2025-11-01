@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
+import Confetti from "react-confetti";
+import { useWindowSize } from "react-use";
+import confetti from "canvas-confetti";
 
 export default function MoneyRain({ active }: { active: boolean }) {
+  const { width, height } = useWindowSize();
   const [money, setMoney] = useState<
     { id: number; left: number; delay: number }[]
   >([]);
 
   useEffect(() => {
-    if (!active) return; // stop spawning when inactive
+    if (!active) return;
 
     const interval = setInterval(() => {
       const id = Date.now();
@@ -23,8 +27,35 @@ export default function MoneyRain({ active }: { active: boolean }) {
     return () => clearInterval(interval);
   }, [active]);
 
+  useEffect(() => {
+    //confetti gun
+    if (!active) return;
+
+    const shoot = (xOrigin: number) => {
+      confetti({
+        particleCount: 150,
+        startVelocity: 80,
+        spread: 40,
+        angle: xOrigin < 0.5 ? 60 : 120, // shooting angle
+        origin: { x: xOrigin, y: 1 }, // bottom corners
+      });
+    };
+
+    // burst from both corners every 400ms for ~3 seconds
+
+    const timeout = setTimeout(() => {
+      shoot(0); // left corner
+      shoot(1); // right corner
+    }, 100);
+
+    // cleanup timeout if component unmounts or active changes
+    return () => clearTimeout(timeout);
+  }, [active]);
+
   return (
-    <div className="pointer-events-none fixed inset-0 overflow-hidden">
+    <div className="pointer-events-none fixed inset-0 overflow-hidden z-51">
+      {active && <Confetti width={width} height={height} />}
+
       {money.map(({ id, left, delay }) => (
         <span
           key={id}
