@@ -41,14 +41,11 @@ export default function MoneyRain({ active }: { active: boolean }) {
       });
     };
 
-    // burst from both corners every 400ms for ~3 seconds
-
     const timeout = setTimeout(() => {
-      shoot(0); // left corner
-      shoot(1); // right corner
+      shoot(0);
+      shoot(1);
     }, 100);
 
-    // cleanup timeout if component unmounts or active changes
     return () => clearTimeout(timeout);
   }, [active]);
 

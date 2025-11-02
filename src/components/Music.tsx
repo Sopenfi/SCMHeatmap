@@ -3,6 +3,8 @@ import type { MarketItem } from "../types";
 import MoneyRain from "./MoneyRain";
 import canny3 from "../music/canny3.mp3";
 import canny4 from "../music/canny4.mp3";
+import canny5 from "../music/canny5.mp3";
+import canny6 from "../music/canny6.mp3";
 import sonicslowed from "../music/sonicslowed.mp3";
 import suicidemouse from "../music/suicidemouse.mp3";
 import sonic from "../music/sonic.mp3";
@@ -83,17 +85,21 @@ const BackgroundMusic: React.FC<BackgroundMusicProps> = ({
   useEffect(() => {
     let newTrack = currentTrack;
 
-    if (totalChange.totalDiffPct > 20) newTrack = tequila;
-    else if (totalChange.totalDiffPct > 15) newTrack = volvo; // 20 - 15
-    else if (totalChange.totalDiffPct > 10) newTrack = canny4; // 15-10
-    else if (totalChange.totalDiffPct > 5) newTrack = canny3; // 10 - 5
-    else if (totalChange.totalDiffPct > 1) newTrack = life; // 5-1
+    if (totalChange.totalDiffPct > 30) newTrack = tequila; // over 30%
+    else if (totalChange.totalDiffPct > 25) newTrack = canny6; // 25 - 30
+    else if (totalChange.totalDiffPct > 20) newTrack = canny5; // 20 - 25
+    else if (totalChange.totalDiffPct > 15) newTrack = volvo; // 15 - 20
+    else if (totalChange.totalDiffPct > 10) newTrack = canny4; // 10 - 15
+    else if (totalChange.totalDiffPct > 5) newTrack = canny3; //5 - 10
+    else if (totalChange.totalDiffPct > 1) newTrack = life; // 1 - 5
     else if (totalChange.totalDiffPct > -1)
       newTrack = sneakyadventure; // 1 - -1
     else if (totalChange.totalDiffPct > -5) newTrack = suicidemouse; // -1 - -5
     else if (totalChange.totalDiffPct > -10) newTrack = sonic; //-5 - -10
     else if (totalChange.totalDiffPct > -15) newTrack = sonicslowed; //-10 - -15
     else if (totalChange.totalDiffPct > -20) newTrack = cry; //-15 - -20
+    else if (totalChange.totalDiffPct > -25)
+      newTrack = burningmemory; //-25 - -30
     else newTrack = burningmemory;
     if (newTrack !== currentTrack) {
       setCurrentTrack(newTrack);
