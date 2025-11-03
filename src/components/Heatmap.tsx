@@ -27,7 +27,7 @@ const Heatmap: React.FC<Props> = ({ data, timeframe }) => {
   return (
     <div className="grid lg:grid-cols-2 grid-rows-2 gap-0 p-0 pt-0 mt-0 m-0">
       {/* LEFT MAIN GRID */}
-      <div className="m-2 ">
+      <div className="m-0 ">
         {/* Title for left grid */}
         <h2 className="text-lg font-semibold mb-1 text-center italic">Cases</h2>
 
@@ -60,7 +60,7 @@ const Heatmap: React.FC<Props> = ({ data, timeframe }) => {
       </div>
 
       {/* RIGHT MAIN GRID */}
-      <div className="m-2">
+      <div className="m-0">
         {/* Title for right grid */}
         <h2 className="text-lg font-semibold mb-0 text-center italic">Skins</h2>
 

@@ -33,7 +33,7 @@ const App: React.FC = () => {
 
       <BackgroundMusic data={data} timeframe={timeframe} />
 
-      <div className="flex sm:flex-row flex-col items-center mb-2 mt-2">
+      <div className="flex sm:flex-row flex-col items-center mb-0 mt-2">
         <TimeframeSelector timeframe={timeframe} setTimeframe={setTimeframe} />
         <div className="text-3xl font-bold text-white ml-6 flex items-center">
           <Change data={data} timeframe={timeframe} />
