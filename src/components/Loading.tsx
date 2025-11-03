@@ -1,4 +1,4 @@
-import { BlinkBlur, Mosaic } from "react-loading-indicators";
+import { Mosaic } from "react-loading-indicators";
 
 function Loading() {
   return (
