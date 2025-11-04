@@ -5,8 +5,8 @@ export interface MarketItem {
   "Current price": string;
   "6h ago": string;
   "24h ago": string;
-  "72h ago": string;
-  "7days ago": string;
-  "30days ago": string;
+  "3D ago": string;
+  "7D ago": string;
+  "30D ago": string;
   Supply: string;
 }

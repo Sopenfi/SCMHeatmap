@@ -16,7 +16,7 @@ import cry from "../music/Cry.mp3";
 import burningmemory from "../music/burningmemory.mp3";
 interface BackgroundMusicProps {
   data: MarketItem[];
-  timeframe: "6h" | "24h" | "72h" | "7days" | "30days";
+  timeframe: "6h" | "24h" | "3D" | "7D" | "30D";
 }
 const BackgroundMusic: React.FC<BackgroundMusicProps> = ({
   data,

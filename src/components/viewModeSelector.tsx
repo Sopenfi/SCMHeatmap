@@ -1,28 +1,24 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 interface Props {
-  timeframe: "6h" | "24h" | "3D" | "7D" | "30D";
-  setTimeframe: React.Dispatch<
-    React.SetStateAction<"6h" | "24h" | "3D" | "7D" | "30D">
-  >;
+  viewMode: String;
+  setViewMode: (t: any) => void;
 }
-
-const TimeframeSelector: React.FC<Props> = ({ timeframe, setTimeframe }) => {
-  const options = ["6h", "24h", "3D", "7D", "30D"] as const;
+const viewModeSelector: React.FC<Props> = ({ viewMode, setViewMode }) => {
+  const options = ["Divided", "Combined"];
   const [open, setOpen] = useState(false);
 
   const handleSelect = (o: (typeof options)[number]) => {
-    setTimeframe(o);
+    setViewMode(o);
     setOpen(false);
   };
-
   return (
     <div className="relative inline-block text-left">
       <button
         onClick={() => setOpen(!open)}
         className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-black hover:bg-gray-300 focus:outline-none"
       >
-        Change ({timeframe}), %
+        Grouping ({viewMode})
         <svg
           className="ml-2 -mr-1 h-5 w-5"
           xmlns="http://www.w3.org/2000/svg"
@@ -47,12 +43,12 @@ const TimeframeSelector: React.FC<Props> = ({ timeframe, setTimeframe }) => {
                 key={o}
                 onClick={() => handleSelect(o)}
                 className={`block w-full text-left px-4 py-2 text-sm rounded ${
-                  timeframe === o
+                  viewMode === o
                     ? "bg-blue-600 text-white"
                     : "text-gray-700 hover:bg-gray-100"
                 }`}
               >
-                Change {o}, %
+                {o}
               </button>
             ))}
           </div>
@@ -62,4 +58,4 @@ const TimeframeSelector: React.FC<Props> = ({ timeframe, setTimeframe }) => {
   );
 };
 
-export default TimeframeSelector;
+export default viewModeSelector;

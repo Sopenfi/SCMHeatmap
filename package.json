@@ -12,7 +12,9 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.1.16",
     "canvas-confetti": "^1.9.4",
+    "d3-hierarchy": "^3.1.2",
     "react": "^19.1.1",
+    "react-bootstrap": "^2.10.10",
     "react-confetti": "^6.4.0",
     "react-dom": "^19.1.1",
     "react-loading-indicators": "^1.0.1",
@@ -21,6 +23,7 @@
   "devDependencies": {
     "@eslint/js": "^9.36.0",
     "@types/canvas-confetti": "^1.9.0",
+    "@types/d3-hierarchy": "^3.1.7",
     "@types/node": "^24.6.0",
     "@types/react": "^19.1.16",
     "@types/react-dom": "^19.1.9",

@@ -3,7 +3,7 @@ import type { MarketItem } from "../types";
 
 interface ChangeProps {
   data: MarketItem[];
-  timeframe: "6h" | "24h" | "72h" | "7days" | "30days";
+  timeframe: "6h" | "24h" | "3D" | "7D" | "30D";
 }
 const Change: React.FC<ChangeProps> = ({ data, timeframe }) => {
   const sortedData = useMemo(() => {
