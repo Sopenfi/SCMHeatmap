@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useSheetData } from "./hooks/useSheetData";
-import Heatmap from "./components/Heatmap";
 import TimeframeSelector from "./components/TimeframeSelector.tsx";
 import "./index.css";
 import BackgroundMusic from "./components/Music.tsx";
