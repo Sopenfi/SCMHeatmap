@@ -3,7 +3,7 @@ import type { MarketItem } from "../types";
 
 interface Props {
   item: MarketItem;
-  timeframe: "6h" | "24h" | "72h" | "7days" | "30days";
+  timeframe: "6h" | "24h" | "3D" | "7D" | "30D";
 }
 
 const HeatmapBox: React.FC<Props> = ({ item, timeframe }) => {
