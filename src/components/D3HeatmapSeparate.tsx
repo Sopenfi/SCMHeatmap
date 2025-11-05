@@ -9,7 +9,7 @@ import type { MarketItem } from "../types";
 interface Props {
   data: MarketItem[];
   timeframe: "6h" | "24h" | "3D" | "7D" | "30D";
-  viewMode: string; // "Combined" or "Divided"
+  viewMode: string;
 }
 
 interface MyNode {
@@ -25,7 +25,6 @@ const ResponsiveTreemap: React.FC<Props> = ({ data, timeframe, viewMode }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
 
-  // --- track container size ---
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
@@ -37,14 +36,13 @@ const ResponsiveTreemap: React.FC<Props> = ({ data, timeframe, viewMode }) => {
     return () => obs.disconnect();
   }, []);
 
-  // --- compute values & sort ---
   const sortedData = useMemo(() => {
     return [...data]
       .map((item) => {
         const current = parseFloat(item["Current price"].replace(",", "."));
         const past = parseFloat(item[`${timeframe} ago`].replace(",", "."));
         const supply = parseFloat(item.Supply);
-        const size = parseFloat(item.Size);
+        //const size = parseFloat(item.Size);
         const mcap = past * supply;
         const box_size = Math.pow(mcap, 0.7);
         const change = ((current - past) / past) * 100;
@@ -54,7 +52,6 @@ const ResponsiveTreemap: React.FC<Props> = ({ data, timeframe, viewMode }) => {
       .sort((a, b) => b.MCAP - a.MCAP);
   }, [data, timeframe]);
 
-  // --- build tree structure ---
   const treeData = useMemo(() => {
     if (viewMode === "Combined") {
       return {
@@ -69,7 +66,7 @@ const ResponsiveTreemap: React.FC<Props> = ({ data, timeframe, viewMode }) => {
       };
     }
 
-    // Divided view
+    //divided view
     const grouped: Record<string, MyNode[]> = {};
     sortedData.forEach((item) => {
       if (!grouped[item.Type]) grouped[item.Type] = [];
@@ -111,7 +108,7 @@ const ResponsiveTreemap: React.FC<Props> = ({ data, timeframe, viewMode }) => {
     return root as HierarchyRectangularNode<MyNode>;
   }, [treeData, size, viewMode]);
 
-  // RENDER
+  //rendering
   if (viewMode === "Combined") {
     if (!combinedRoot)
       return <div ref={containerRef} className="w-full h-[650px]" />;
@@ -123,7 +120,7 @@ const ResponsiveTreemap: React.FC<Props> = ({ data, timeframe, viewMode }) => {
     return (
       <div ref={containerRef} className="relative w-full h-[650px]">
         {sectorGroups.map((group, i) => {
-          const { x0, y0, x1, data } = group;
+          const { x0, y0 } = group;
           return (
             <div
               key={`title-${i}`}
@@ -186,7 +183,7 @@ const ResponsiveTreemap: React.FC<Props> = ({ data, timeframe, viewMode }) => {
     );
   }
 
-  // divided view separate treemaps
+  //divided view separate treemaps
   const groupedSectors = (treeData.children ?? []) as MyNode[];
   const numSectors = groupedSectors.length;
   let cols: number;
@@ -213,7 +210,7 @@ const ResponsiveTreemap: React.FC<Props> = ({ data, timeframe, viewMode }) => {
         const xOffset = col * sectorWidth;
         const yOffset = row * sectorHeight;
 
-        // Build treemap for this sector
+        //build treemap for this sector
         const localRoot = treemap<MyNode>()
           .size([sectorWidth, sectorHeight])
           .padding(1)

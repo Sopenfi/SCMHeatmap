@@ -98,7 +98,6 @@ const ResponsiveTreemap: React.FC<Props> = ({
     };
   }, [sortedData, viewMode]);
 
-  // --- build hierarchy + layout ---
   const root = useMemo(() => {
     if (size.width === 0 || size.height === 0) return null;
 
@@ -138,7 +137,7 @@ const ResponsiveTreemap: React.FC<Props> = ({
               className="absolute font-semibold text-gray-300 text-sm pointer-events-none z-10 leading-none"
               style={{
                 left: x0 + 10,
-                top: y0 - 8, // slightly above the box
+                top: y0 - 8,
                 whiteSpace: "nowrap",
               }}
             >
@@ -147,7 +146,7 @@ const ResponsiveTreemap: React.FC<Props> = ({
           );
         })}
 
-      {/* treemap blocks */}
+      {/* treemap */}
       {leaves.map((leaf, i) => {
         const { x0, y0, x1, y1, data } = leaf;
         const w = Math.max(0, x1 - x0);

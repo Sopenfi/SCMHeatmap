@@ -7,7 +7,7 @@ function Loading() {
         color="#32cd32"
         size="large"
         text="Loading..."
-        textColor="black"
+        textColor="white"
       />
     </div>
   );
