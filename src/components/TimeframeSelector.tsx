@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 interface Props {
   timeframe: "6h" | "24h" | "3D" | "7D" | "30D";
@@ -10,6 +10,23 @@ interface Props {
 const TimeframeSelector: React.FC<Props> = ({ timeframe, setTimeframe }) => {
   const options = ["6h", "24h", "3D", "7D", "30D"] as const;
   const [open, setOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleSelect = (o: (typeof options)[number]) => {
     setTimeframe(o);
@@ -17,14 +34,16 @@ const TimeframeSelector: React.FC<Props> = ({ timeframe, setTimeframe }) => {
   };
 
   return (
-    <div className="relative inline-block text-left">
+    <div ref={dropdownRef} className="relative inline-block text-left">
       <button
         onClick={() => setOpen(!open)}
         className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-black hover:bg-gray-300 focus:outline-none"
       >
         Change ({timeframe}), %
         <svg
-          className="ml-2 -mr-1 h-5 w-5"
+          className={`ml-2 -mr-1 h-5 w-5 transition-transform duration-400 ${
+            open ? "rotate-180" : "rotate-0"
+          }`}
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
@@ -40,7 +59,7 @@ const TimeframeSelector: React.FC<Props> = ({ timeframe, setTimeframe }) => {
       </button>
 
       {open && (
-        <div className="absolute left-0 mt-1 w-full origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 z-70">
+        <div className="absolute left-0 mt-1 w-full origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 z-50">
           <div className="py-1">
             {options.map((o) => (
               <button

@@ -15,7 +15,11 @@ const BoxSizeSelector: React.FC<Props> = ({ BoxSize, setBoxSize }) => {
         max={1}
         step={0.01}
         valueLabelDisplay="auto"
-        valueLabelFormat={(value) => value.toFixed(2)}
+        valueLabelFormat={(value) => {
+          if (value == 1) return "Realistic scale";
+          if (value == 0) return "Unified scale";
+          else return value.toFixed(2);
+        }}
       />
     </div>
   );

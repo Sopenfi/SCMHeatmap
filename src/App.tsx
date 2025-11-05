@@ -37,9 +37,11 @@ const App: React.FC = () => {
 
       <BackgroundMusic data={data} timeframe={timeframe} />
 
-      <div className="flex sm:flex-row flex-col items-center mb-0 mt-2 gap-10 mb-2">
+      <div className="flex flex-row items-center mb-0 mt-2 sm:gap-10 gap-1 mb-2">
         <ViewModeSelector viewMode={viewMode} setViewMode={setViewMode} />
         <TimeframeSelector timeframe={timeframe} setTimeframe={setTimeframe} />
+      </div>
+      <div className="flex flex-col lg:flex-row lg:gap-10 gap-0">
         <BoxSizeSelector BoxSize={BoxSize} setBoxSize={setBoxSize} />
         <div className="text-3xl font-bold text-white ml-0 flex items-center">
           <Change data={data} timeframe={timeframe} />
