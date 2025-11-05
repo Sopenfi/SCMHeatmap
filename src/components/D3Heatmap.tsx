@@ -10,26 +10,35 @@ interface Props {
   data: MarketItem[];
   timeframe: "6h" | "24h" | "3D" | "7D" | "30D";
   viewMode: string;
+  BoxSize: number;
 }
 
 interface MyNode {
   name: string;
   value?: number;
+  box_size?: number;
   change?: number;
   clampedChange?: number;
   children?: MyNode[];
 }
 
-const ResponsiveTreemap: React.FC<Props> = ({ data, timeframe, viewMode }) => {
+const ResponsiveTreemap: React.FC<Props> = ({
+  data,
+  timeframe,
+  viewMode,
+  BoxSize,
+}) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
+
     const updateSize = () =>
       setSize({ width: el.offsetWidth, height: el.offsetHeight });
     updateSize();
+
     const obs = new ResizeObserver(updateSize);
     obs.observe(el);
     return () => obs.disconnect();
@@ -42,12 +51,16 @@ const ResponsiveTreemap: React.FC<Props> = ({ data, timeframe, viewMode }) => {
         const past = parseFloat(item[`${timeframe} ago`].replace(",", "."));
         const supply = parseFloat(item.Supply);
         const mcap = past * supply;
+        //const box_size = Math.pow(mcap, 0.8);
+        console.log(BoxSize);
+        const box_size = Math.pow(mcap, BoxSize);
         const change = ((current - past) / past) * 100;
         const clampedChange = Math.max(-100, Math.min(100, change));
-        return { ...item, MCAP: mcap, change, clampedChange };
+
+        return { ...item, MCAP: mcap, change, clampedChange, box_size };
       })
       .sort((a, b) => b.MCAP - a.MCAP);
-  }, [data, timeframe]);
+  }, [data, timeframe, BoxSize]);
 
   const treeData = useMemo(() => {
     if (viewMode === "Combined") {
@@ -56,6 +69,7 @@ const ResponsiveTreemap: React.FC<Props> = ({ data, timeframe, viewMode }) => {
         children: sortedData.map((item) => ({
           name: item.Item,
           value: item.MCAP,
+          box_size: item.box_size,
           change: item.change,
           clampedChange: item.clampedChange,
         })),
@@ -69,6 +83,7 @@ const ResponsiveTreemap: React.FC<Props> = ({ data, timeframe, viewMode }) => {
       grouped[item.Type].push({
         name: item.Item,
         value: item.MCAP,
+        box_size: item.box_size,
         change: item.change,
         clampedChange: item.clampedChange,
       });
@@ -86,27 +101,53 @@ const ResponsiveTreemap: React.FC<Props> = ({ data, timeframe, viewMode }) => {
   // --- build hierarchy + layout ---
   const root = useMemo(() => {
     if (size.width === 0 || size.height === 0) return null;
+
     const root = hierarchy<MyNode>(treeData)
-      .sum((d) => d.value ?? 0)
+      .sum((d) => d.box_size ?? 0)
       .sort((a, b) => (b.value ?? 0) - (a.value ?? 0));
 
     treemap<MyNode>()
       .size([size.width, size.height])
       .padding(1)
-      .paddingTop(1)
+      .paddingTop(10)
       .paddingLeft(4)
       .paddingRight(4)
-      .paddingBottom(1)(root);
+      .paddingBottom(10)(root);
 
-    return root;
+    return root as HierarchyRectangularNode<MyNode>;
   }, [treeData, size]);
 
   if (!root) return <div ref={containerRef} className="w-full h-[650px]" />;
 
   const leaves = root.leaves() as HierarchyRectangularNode<MyNode>[];
+  const sectorGroups = (root.children ??
+    []) as HierarchyRectangularNode<MyNode>[];
 
   return (
-    <div ref={containerRef} className="relative w-full h-[650px]">
+    <div
+      ref={containerRef}
+      className="relative w-full md:h-[650px] h-[1000px]" // taller on mobile
+    >
+      {/* show sector titles when not combined */}
+      {viewMode !== "Combined" &&
+        sectorGroups.map((group, i) => {
+          const { x0, y0, data } = group;
+          return (
+            <div
+              key={`title-${i}`}
+              className="absolute font-semibold text-gray-300 text-sm pointer-events-none z-10 leading-none"
+              style={{
+                left: x0 + 10,
+                top: y0 - 8, // slightly above the box
+                whiteSpace: "nowrap",
+              }}
+            >
+              {data.name}s
+            </div>
+          );
+        })}
+
+      {/* treemap blocks */}
       {leaves.map((leaf, i) => {
         const { x0, y0, x1, y1, data } = leaf;
         const w = Math.max(0, x1 - x0);
@@ -127,6 +168,7 @@ const ResponsiveTreemap: React.FC<Props> = ({ data, timeframe, viewMode }) => {
 
         const adjust = (v: number, a: number) =>
           Math.min(255, Math.max(0, v + a));
+
         const lighter = `rgb(${adjust(r, 20)}, ${adjust(g, 20)}, ${adjust(
           b,
           20
@@ -150,7 +192,7 @@ const ResponsiveTreemap: React.FC<Props> = ({ data, timeframe, viewMode }) => {
               boxSizing: "border-box",
             }}
           >
-            {w > 80 && h > 60 && (
+            {w > 60 && h > 60 && (
               <>
                 <div>{data.name}</div>
                 <div>{data.change?.toFixed(2)}%</div>

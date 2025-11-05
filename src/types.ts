@@ -9,4 +9,5 @@ export interface MarketItem {
   "7D ago": string;
   "30D ago": string;
   Supply: string;
+  Size: string;
 }
