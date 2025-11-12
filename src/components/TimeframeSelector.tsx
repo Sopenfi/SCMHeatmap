@@ -37,9 +37,20 @@ const TimeframeSelector: React.FC<Props> = ({ timeframe, setTimeframe }) => {
     <div ref={dropdownRef} className="relative inline-block text-left">
       <button
         onClick={() => setOpen(!open)}
-        className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-black hover:bg-gray-300 focus:outline-none"
+        className="inline-flex justify-between w-45 rounded-md shadow-sm p-2 py-1 text-sm font-semibold text-white  hover:bg-gray-900 focus:outline-none"
       >
-        Change ({timeframe}), %
+        <div className="flex items-center gap-2 ">
+          <svg width="24" height="24">
+            {/* Row 1 */}
+            <rect width="10" height="10" fill="#51cc53" rx="2" x="0" y="1" />
+            <rect width="10" height="10" fill="#c25a48ff" rx="2" x="12" y="1" />
+
+            {/* Row 2 */}
+            <rect width="10" height="10" fill="#992824ff" rx="2" x="0" y="13" />
+            <rect width="10" height="10" fill="#24994f" rx="2" x="12" y="13" />
+          </svg>
+          Change ({timeframe}), %
+        </div>
         <svg
           className={`ml-2 -mr-1 h-5 w-5 transition-transform duration-400 ${
             open ? "rotate-180" : "rotate-0"
@@ -57,18 +68,17 @@ const TimeframeSelector: React.FC<Props> = ({ timeframe, setTimeframe }) => {
           />
         </svg>
       </button>
-
       {open && (
-        <div className="absolute left-0 mt-1 w-full origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 z-50">
-          <div className="py-1">
+        <div className="absolute left-0 mt-1 w-48 origin-top-left rounded-md bg-black shadow-lg ring-1 ring-black ring-opacity-5 z-50">
+          <div className="py-1 flex flex-col items-center gap-1">
             {options.map((o) => (
               <button
                 key={o}
                 onClick={() => handleSelect(o)}
-                className={`block w-full text-left px-4 py-2 text-sm rounded ${
+                className={`block  text-left px-2 py-2 text-sm rounded ${
                   timeframe === o
-                    ? "bg-blue-600 text-white"
-                    : "text-gray-700 hover:bg-gray-100"
+                    ? "bg-gray-700 text-white w-[90%] h-[90%]"
+                    : "hover:text-white text-gray-600 w-[90%] h-[90%]"
                 }`}
               >
                 Change {o}, %

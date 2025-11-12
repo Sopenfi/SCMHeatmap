@@ -3,6 +3,7 @@ import {
   treemap,
   hierarchy,
   type HierarchyRectangularNode,
+  treemapBinary,
 } from "d3-hierarchy";
 import type { MarketItem } from "../types";
 
@@ -106,8 +107,9 @@ const ResponsiveTreemap: React.FC<Props> = ({
       .sort((a, b) => (b.value ?? 0) - (a.value ?? 0));
 
     treemap<MyNode>()
+      .tile(treemapBinary)
       .size([size.width, size.height])
-      .padding(1)
+      .padding(2)
       .paddingTop(10)
       .paddingLeft(4)
       .paddingRight(4)
@@ -116,7 +118,7 @@ const ResponsiveTreemap: React.FC<Props> = ({
     return root as HierarchyRectangularNode<MyNode>;
   }, [treeData, size]);
 
-  if (!root) return <div ref={containerRef} className="w-full h-[650px]" />;
+  if (!root) return <div ref={containerRef} className="w-full h-[750px]" />;
 
   const leaves = root.leaves() as HierarchyRectangularNode<MyNode>[];
   const sectorGroups = (root.children ??
@@ -125,7 +127,7 @@ const ResponsiveTreemap: React.FC<Props> = ({
   return (
     <div
       ref={containerRef}
-      className="relative w-full md:h-[650px] h-[1000px]" // taller on mobile
+      className="relative w-full md:h-[750px] h-[1000px]" // taller on mobile
     >
       {/* show sector titles when not combined */}
       {viewMode !== "Combined" &&
@@ -134,14 +136,14 @@ const ResponsiveTreemap: React.FC<Props> = ({
           return (
             <div
               key={`title-${i}`}
-              className="absolute font-semibold text-gray-300 text-sm pointer-events-none z-10 leading-none"
+              className="absolute text-gray-300 text-sm pointer-events-none z-10 leading-none font-Raleway font-light"
               style={{
                 left: x0 + 10,
                 top: y0 - 8,
                 whiteSpace: "nowrap",
               }}
             >
-              {data.name}s
+              {data.name}s{" >"}
             </div>
           );
         })}
@@ -153,6 +155,17 @@ const ResponsiveTreemap: React.FC<Props> = ({
         const h = Math.max(0, y1 - y0);
         const clampedChange = data.clampedChange ?? 0;
         const intensity = Math.min(Math.abs(clampedChange) / 100, 1);
+
+        const maxBoxSize = Math.max(...leaves.map((l) => l.data.box_size ?? 0));
+        const boxSizeNormalized = (data.box_size ?? 0) / maxBoxSize;
+        const minFont = 8;
+        const maxFont = 12;
+
+        const fontSize = Math.min(
+          minFont + (maxFont - minFont) * boxSizeNormalized,
+          w / 5,
+          h / 3
+        );
 
         let r, g, b;
         if (clampedChange < 0) {
@@ -181,7 +194,7 @@ const ResponsiveTreemap: React.FC<Props> = ({
         return (
           <div
             key={i}
-            className="absolute flex flex-col items-center justify-center text-xs text-black font-semibold text-center"
+            className="absolute flex flex-col items-center justify-center text-black font-semibold text-center"
             style={{
               left: x0,
               top: y0,
@@ -189,9 +202,10 @@ const ResponsiveTreemap: React.FC<Props> = ({
               height: h,
               background: `radial-gradient(circle at 50%, ${lighter} 0%, ${base} 70%, ${darker} 100%)`,
               boxSizing: "border-box",
+              fontSize: `${fontSize}px`,
             }}
           >
-            {w > 60 && h > 60 && (
+            {w > 80 && h > 60 ? (
               <>
                 <div>{data.name}</div>
                 <div>{data.change?.toFixed(2)}%</div>
@@ -202,6 +216,15 @@ const ResponsiveTreemap: React.FC<Props> = ({
                   M€
                 </div>
               </>
+            ) : w > 50 && h > 30 ? (
+              <>
+                <div>{data.name}</div>
+                <div>{data.change?.toFixed(2)}%</div>
+              </>
+            ) : w > 40 && h > 30 ? (
+              <div> {data.name} </div>
+            ) : (
+              <div> </div>
             )}
           </div>
         );

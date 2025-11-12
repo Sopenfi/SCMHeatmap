@@ -7,7 +7,7 @@ import Change from "./components/Change.tsx";
 import Loading from "./components/Loading.tsx";
 import ViewModeSelector from "./components/viewModeSelector.tsx";
 import D3Heatmap from "./components/D3Heatmap.tsx";
-import BoxSizeSelector from "./components/BoxSizeSelector.tsx";
+import ScaleSelector from "./components/ScaleSelector.tsx";
 
 const SHEET_ID = "1HGYx_kpOQgQHKVnwkY1Dm5oyqqdCO9pOep-TbYUVHvQ";
 const SHEET_NAME = "data";
@@ -32,19 +32,24 @@ const App: React.FC = () => {
   if (loading || showLoading) return <Loading />;
 
   return (
-    <div className="min-h-screen lg:px-40 md:px-20 pt-3 pb-10 p-2 flex flex-col items-center bg-gradient-to-t from-gray-900 to-gray-700">
-      <h1 className="text-4xl font-bold">SCM Heatmap</h1>
-
-      <BackgroundMusic data={data} timeframe={timeframe} />
-
-      <div className="flex flex-row items-center mb-0 mt-2 sm:gap-10 gap-1 mb-2">
-        <ViewModeSelector viewMode={viewMode} setViewMode={setViewMode} />
-        <TimeframeSelector timeframe={timeframe} setTimeframe={setTimeframe} />
+    <div className="min-h-screen px-6 pt-7 pb-10 p-2 flex flex-col bg-black lg:justify-start justify-center lg:items-start items-center">
+      <h1 className="text-3xl font-Raleway text-white">SCM Heatmap</h1>
+      <div className="px-3">
+        <BackgroundMusic data={data} timeframe={timeframe} />
       </div>
-      <div className="flex flex-col lg:flex-row lg:gap-10 gap-0">
-        <BoxSizeSelector BoxSize={BoxSize} setBoxSize={setBoxSize} />
-        <div className="text-3xl font-bold text-white ml-0 flex items-center">
-          <Change data={data} timeframe={timeframe} />
+      <div className="flex flex-wrap justify-center lg:justify-start items-center gap-2 sm:gap-4 mt-2 px-3">
+        <div className="flex flex-row gap-2 sm:gap-4">
+          <ScaleSelector BoxSize={BoxSize} setBoxSize={setBoxSize} />
+          <ViewModeSelector viewMode={viewMode} setViewMode={setViewMode} />
+          <TimeframeSelector
+            timeframe={timeframe}
+            setTimeframe={setTimeframe}
+          />
+        </div>
+        <div className="flex flex-row gap-2 sm:gap-4">
+          <div className="text-3xl font-bold text-white flex items-center">
+            <Change data={data} timeframe={timeframe} />
+          </div>
         </div>
       </div>
       <D3Heatmap

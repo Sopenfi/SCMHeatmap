@@ -13,3 +13,37 @@
 .animate-fall {
   animation: fall 4s linear forwards;
 }
+
+@font-face {
+  font-family: Raleway;
+  src: url("../src/assets/fonts/Raleway-Bold.ttf") format("truetype");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: Raleway;
+  src: url("../src/assets/fonts/Raleway-Thin.ttf") format("truetype");
+  font-weight: 100;
+}
+@font-face {
+  font-family: Raleway;
+  src: url("../src/assets/fonts/Raleway-Light.ttf") format("truetype");
+  font-weight: 300;
+}
+@font-face {
+  font-family: Raleway;
+  src: url("../src/assets/fonts/Raleway-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: Raleway;
+  src: url("../src/assets/fonts/Raleway-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+}
+@font-face {
+  font-family: Doto;
+  src: url("../src/assets/fonts/Doto-Regular.ttf") format("truetype");
+}
+:root {
+  --font-Raleway: Raleway, sans-serif;
+  --font-doto: Doto, sans-serif;
+}

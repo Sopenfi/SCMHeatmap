@@ -33,11 +33,29 @@ const viewModeSelector: React.FC<Props> = ({ viewMode, setViewMode }) => {
     <div ref={dropdownRef} className="relative inline-block text-left">
       <button
         onClick={() => setOpen(!open)}
-        className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-black hover:bg-gray-300 focus:outline-none"
+        className="inline-flex w-35 justify-between items-center rounded-md p-1 shadow-sm py-1 text-sm font-semibold text-white hover:bg-gray-900 focus:outline-none"
       >
-        Grouping ({viewMode})
+        {/* Left: icon + text */}
+        <div className="flex items-center gap-2">
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 28 28"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill="white"
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M14 25c2.542 0 4.883-.862 6.746-2.31l.007.008.316-.27.12-.102.325-.277-.008-.008A10.97 10.97 0 0 0 25 14c0-6.075-4.925-11-11-11S3 7.925 3 14s4.925 11 11 11Zm0-1a9.956 9.956 0 0 0 6.096-2.073l-3.243-3.807c-.81.562-1.793.891-2.853.891V24ZM8.989 14A5.013 5.013 0 0 0 13 18.911v5.04C7.947 23.449 4 19.185 4 14c0-5.185 3.947-9.449 9-9.95v5.039A5.013 5.013 0 0 0 8.989 14ZM14 4v4.989A5.011 5.011 0 0 1 19.011 14H24c0-5.523-4.477-10-10-10Zm9.95 11h-5.039a4.998 4.998 0 0 1-1.297 2.471l3.243 3.808A9.974 9.974 0 0 0 23.951 15ZM14 18.011c.98 0 1.877-.351 2.573-.934l.053-.045a4.011 4.011 0 1 0-2.626.979Z"
+            ></path>
+          </svg>
+          <span>{viewMode}</span>
+        </div>
+
+        {/* Right: arrow */}
         <svg
-          className={`ml-2 -mr-1 h-5 w-5 transition-transform duration-400 ${
+          className={`h-5 w-5 transition-transform duration-400 ${
             open ? "rotate-180" : "rotate-0"
           }`}
           xmlns="http://www.w3.org/2000/svg"
@@ -55,16 +73,16 @@ const viewModeSelector: React.FC<Props> = ({ viewMode, setViewMode }) => {
       </button>
 
       {open && (
-        <div className="absolute left-0 mt-1 w-full origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 z-70">
-          <div className="py-1">
+        <div className="absolute left-0 mt-1 w-35 origin-top-left rounded-md bg-black shadow-lg ring-1 ring-black ring-opacity-5 z-50">
+          <div className="py-1 flex flex-col items-center gap-1">
             {options.map((o) => (
               <button
                 key={o}
                 onClick={() => handleSelect(o)}
-                className={`block w-full text-left px-4 py-2 text-sm rounded ${
+                className={`block  text-left px-2 py-2 text-sm rounded ${
                   viewMode === o
-                    ? "bg-blue-600 text-white"
-                    : "text-gray-700 hover:bg-gray-100"
+                    ? "bg-gray-700 text-white w-[90%] h-[90%] "
+                    : "hover:text-white text-gray-600 w-[90%] h-[90%]"
                 }`}
               >
                 {o}

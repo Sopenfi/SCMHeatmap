@@ -94,11 +94,11 @@ const BackgroundMusic: React.FC<BackgroundMusicProps> = ({
     else if (totalChange.totalDiffPct > 1) newTrack = life; // 1 - 5
     else if (totalChange.totalDiffPct > -1)
       newTrack = sneakyadventure; // 1 - -1
-    else if (totalChange.totalDiffPct > -5) newTrack = suicidemouse; // -1 - -5
-    else if (totalChange.totalDiffPct > -10) newTrack = sonic; //-5 - -10
-    else if (totalChange.totalDiffPct > -15) newTrack = sonicslowed; //-10 - -15
-    else if (totalChange.totalDiffPct > -20) newTrack = cry; //-15 - -20
-    else if (totalChange.totalDiffPct > -25)
+    else if (totalChange.totalDiffPct > -3) newTrack = suicidemouse; // -1 - -5
+    else if (totalChange.totalDiffPct > -5) newTrack = sonic; //-5 - -10
+    else if (totalChange.totalDiffPct > -7) newTrack = sonicslowed; //-10 - -15
+    else if (totalChange.totalDiffPct > -8) newTrack = cry; //-15 - -20
+    else if (totalChange.totalDiffPct > -12)
       newTrack = burningmemory; //-25 - -30
     else newTrack = burningmemory;
     if (newTrack !== currentTrack) {
