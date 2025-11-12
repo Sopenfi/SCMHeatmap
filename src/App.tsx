@@ -41,13 +41,13 @@ const App: React.FC = () => {
         <div className="flex flex-row gap-2 sm:gap-4">
           <ScaleSelector BoxSize={BoxSize} setBoxSize={setBoxSize} />
           <ViewModeSelector viewMode={viewMode} setViewMode={setViewMode} />
-          <TimeframeSelector
-            timeframe={timeframe}
-            setTimeframe={setTimeframe}
-          />
         </div>
         <div className="flex flex-row gap-2 sm:gap-4">
           <div className="text-3xl font-bold text-white flex items-center">
+            <TimeframeSelector
+              timeframe={timeframe}
+              setTimeframe={setTimeframe}
+            />
             <Change data={data} timeframe={timeframe} />
           </div>
         </div>
