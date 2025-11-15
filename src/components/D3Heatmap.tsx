@@ -21,6 +21,7 @@ interface MyNode {
   change?: number;
   clampedChange?: number;
   children?: MyNode[];
+  image_url?: string;
 }
 
 const ResponsiveTreemap: React.FC<Props> = ({
@@ -51,6 +52,7 @@ const ResponsiveTreemap: React.FC<Props> = ({
         const current = parseFloat(item["Current price"].replace(",", "."));
         const past = parseFloat(item[`${timeframe} ago`].replace(",", "."));
         const supply = parseFloat(item.Supply);
+        const image_url = item.Image;
         const mcap = past * supply;
         //const box_size = Math.pow(mcap, 0.8);
         console.log(BoxSize);
@@ -58,7 +60,14 @@ const ResponsiveTreemap: React.FC<Props> = ({
         const change = ((current - past) / past) * 100;
         const clampedChange = Math.max(-100, Math.min(100, change));
 
-        return { ...item, MCAP: mcap, change, clampedChange, box_size };
+        return {
+          ...item,
+          MCAP: mcap,
+          change,
+          clampedChange,
+          box_size,
+          image_url,
+        };
       })
       .sort((a, b) => b.MCAP - a.MCAP);
   }, [data, timeframe, BoxSize]);
@@ -73,6 +82,7 @@ const ResponsiveTreemap: React.FC<Props> = ({
           box_size: item.box_size,
           change: item.change,
           clampedChange: item.clampedChange,
+          image_url: item.image_url,
         })),
       };
     }
@@ -87,6 +97,7 @@ const ResponsiveTreemap: React.FC<Props> = ({
         box_size: item.box_size,
         change: item.change,
         clampedChange: item.clampedChange,
+        image_url: item.image_url,
       });
     });
 
@@ -127,7 +138,7 @@ const ResponsiveTreemap: React.FC<Props> = ({
   return (
     <div
       ref={containerRef}
-      className="relative w-full md:h-[750px] h-[1000px]" // taller on mobile
+      className="relative w-full md:h-[750px] h-[1300px]" // taller on mobile
     >
       {/* show sector titles when not combined */}
       {viewMode !== "Combined" &&
@@ -141,6 +152,9 @@ const ResponsiveTreemap: React.FC<Props> = ({
                 left: x0 + 10,
                 top: y0 - 8,
                 whiteSpace: "nowrap",
+                maxWidth: group.x1 - group.x0 - 8,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
               }}
             >
               {data.name}s{" >"}
@@ -158,13 +172,10 @@ const ResponsiveTreemap: React.FC<Props> = ({
 
         const maxBoxSize = Math.max(...leaves.map((l) => l.data.box_size ?? 0));
         const boxSizeNormalized = (data.box_size ?? 0) / maxBoxSize;
-        const minFont = 8;
-        const maxFont = 12;
-
-        const fontSize = Math.min(
-          minFont + (maxFont - minFont) * boxSizeNormalized,
-          w / 5,
-          h / 3
+        const minFontSize = 9;
+        const fontSize = Math.max(
+          minFontSize,
+          (w + h) * 0.05 * boxSizeNormalized
         );
 
         let r, g, b;
@@ -194,7 +205,7 @@ const ResponsiveTreemap: React.FC<Props> = ({
         return (
           <div
             key={i}
-            className="absolute flex flex-col items-center justify-center text-black font-semibold text-center"
+            className="absolute flex flex-col items-center justify-center text-black text-center"
             style={{
               left: x0,
               top: y0,
@@ -203,28 +214,33 @@ const ResponsiveTreemap: React.FC<Props> = ({
               background: `radial-gradient(circle at 50%, ${lighter} 0%, ${base} 70%, ${darker} 100%)`,
               boxSizing: "border-box",
               fontSize: `${fontSize}px`,
+              fontWeight: 400,
             }}
           >
             {w > 80 && h > 60 ? (
               <>
-                <div>{data.name}</div>
-                <div>{data.change?.toFixed(2)}%</div>
+                <img
+                  src={data.image_url}
+                  className="w-[full] h-[40%] object-contain duration-300 ease-in-out hover:scale-[1.5] hover:z-[100]"
+                />
                 <div>
-                  {((data.value ?? 0) / 1_000_000).toLocaleString("fr-FR", {
-                    maximumFractionDigits: 1,
-                  })}{" "}
-                  M€
+                  {data.change != null
+                    ? data.change >= 0
+                      ? `+${data.change.toFixed(2)}%`
+                      : `${data.change.toFixed(2)}%`
+                    : ""}
                 </div>
               </>
-            ) : w > 50 && h > 30 ? (
-              <>
-                <div>{data.name}</div>
-                <div>{data.change?.toFixed(2)}%</div>
-              </>
             ) : w > 40 && h > 30 ? (
-              <div> {data.name} </div>
+              <>
+                <img
+                  src={data.image_url}
+                  className="w-[full] h-[60%] object-contain"
+                />
+                <div>{data.change?.toFixed(2)}%</div>{" "}
+              </>
             ) : (
-              <div> </div>
+              <></>
             )}
           </div>
         );
