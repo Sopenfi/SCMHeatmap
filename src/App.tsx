@@ -8,7 +8,7 @@ import ViewModeSelector from "./components/viewModeSelector.tsx";
 import D3Heatmap from "./components/D3Heatmap.tsx";
 import ScaleSelector from "./components/ScaleSelector.tsx";
 import SettingsDropdown from "./components/SettingsDropdown.tsx";
-
+import GetLegend from "./hooks/GetLegend";
 const SHEET_ID = "1HGYx_kpOQgQHKVnwkY1Dm5oyqqdCO9pOep-TbYUVHvQ";
 const SHEET_NAME = "data";
 
@@ -62,6 +62,10 @@ const App: React.FC = () => {
         viewMode={viewMode}
         BoxSize={BoxSize}
       />
+
+      <div className="text-white flex flex-col justify-start md:w-100 w-100% mr-3 ml-3">
+        <GetLegend timeframe={timeframe} />
+      </div>
     </div>
   );
 };

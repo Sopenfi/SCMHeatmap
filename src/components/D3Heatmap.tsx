@@ -6,6 +6,7 @@ import {
   treemapBinary,
 } from "d3-hierarchy";
 import type { MarketItem } from "../types";
+import { getColorInfo } from "../hooks/getColorInfo";
 
 interface Props {
   data: MarketItem[];
@@ -59,7 +60,7 @@ const ResponsiveTreemap: React.FC<Props> = ({
         const box_size = Math.pow(mcap, BoxSize);
         const change = ((current - past) / past) * 100;
         const clampedChange = Math.max(-100, Math.min(100, change));
-
+        const timescale = past;
         return {
           ...item,
           MCAP: mcap,
@@ -67,6 +68,7 @@ const ResponsiveTreemap: React.FC<Props> = ({
           clampedChange,
           box_size,
           image_url,
+          timescale,
         };
       })
       .sort((a, b) => b.MCAP - a.MCAP);
@@ -138,7 +140,7 @@ const ResponsiveTreemap: React.FC<Props> = ({
   return (
     <div
       ref={containerRef}
-      className="relative w-full md:h-[750px] h-[1300px]" // taller on mobile
+      className="relative w-full md:h-[800px] h-[1300px]" // taller on mobile
     >
       {/* show sector titles when not combined */}
       {viewMode !== "Combined" &&
@@ -167,40 +169,16 @@ const ResponsiveTreemap: React.FC<Props> = ({
         const { x0, y0, x1, y1, data } = leaf;
         const w = Math.max(0, x1 - x0);
         const h = Math.max(0, y1 - y0);
-        const clampedChange = data.clampedChange ?? 0;
-        const intensity = Math.min(Math.abs(clampedChange) / 100, 1);
 
         const maxBoxSize = Math.max(...leaves.map((l) => l.data.box_size ?? 0));
         const boxSizeNormalized = (data.box_size ?? 0) / maxBoxSize;
+
+        const { color } = getColorInfo(data.change, timeframe);
         const minFontSize = 9;
         const fontSize = Math.max(
           minFontSize,
           (w + h) * 0.05 * boxSizeNormalized
         );
-
-        let r, g, b;
-        if (clampedChange < 0) {
-          r = 150 + 55 * intensity;
-          g = Math.round(40 * (1 - intensity));
-          b = Math.round(40 * (1 - intensity));
-        } else {
-          r = Math.round(100 * (1 - intensity));
-          g = 150 + 55 * intensity;
-          b = Math.round(100 * (1 - intensity));
-        }
-
-        const adjust = (v: number, a: number) =>
-          Math.min(255, Math.max(0, v + a));
-
-        const lighter = `rgb(${adjust(r, 20)}, ${adjust(g, 20)}, ${adjust(
-          b,
-          20
-        )})`;
-        const base = `rgb(${r}, ${g}, ${b})`;
-        const darker = `rgb(${adjust(r, -20)}, ${adjust(g, -20)}, ${adjust(
-          b,
-          -20
-        )})`;
 
         return (
           <div
@@ -211,7 +189,7 @@ const ResponsiveTreemap: React.FC<Props> = ({
               top: y0,
               width: w,
               height: h,
-              background: `radial-gradient(circle at 50%, ${lighter} 0%, ${base} 70%, ${darker} 100%)`,
+              background: color,
               boxSizing: "border-box",
               fontSize: `${fontSize}px`,
               fontWeight: 400,
