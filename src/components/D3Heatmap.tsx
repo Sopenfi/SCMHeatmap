@@ -89,7 +89,6 @@ const ResponsiveTreemap: React.FC<Props> = ({
       };
     }
 
-    // Grouped view (by Type)
     const grouped: Record<string, MyNode[]> = {};
     sortedData.forEach((item) => {
       if (!grouped[item.Type]) grouped[item.Type] = [];
@@ -124,14 +123,14 @@ const ResponsiveTreemap: React.FC<Props> = ({
       .size([size.width, size.height])
       .padding(2)
       .paddingTop(10)
-      .paddingLeft(4)
-      .paddingRight(4)
-      .paddingBottom(10)(root);
+      .paddingLeft(3)
+      .paddingRight(3)
+      .paddingBottom(5)(root);
 
     return root as HierarchyRectangularNode<MyNode>;
   }, [treeData, size]);
 
-  if (!root) return <div ref={containerRef} className="w-full h-[750px]" />;
+  if (!root) return <div ref={containerRef} className="w-full h-[800px]" />;
 
   const leaves = root.leaves() as HierarchyRectangularNode<MyNode>[];
   const sectorGroups = (root.children ??
@@ -142,7 +141,6 @@ const ResponsiveTreemap: React.FC<Props> = ({
       ref={containerRef}
       className="relative w-full md:h-[800px] h-[1300px]" // taller on mobile
     >
-      {/* show sector titles when not combined */}
       {viewMode !== "Combined" &&
         sectorGroups.map((group, i) => {
           const { x0, y0, data } = group;
@@ -152,7 +150,7 @@ const ResponsiveTreemap: React.FC<Props> = ({
               className="absolute text-gray-300 text-sm pointer-events-none z-10 leading-none font-Raleway font-light"
               style={{
                 left: x0 + 10,
-                top: y0 - 8,
+                top: y0 - 7,
                 whiteSpace: "nowrap",
                 maxWidth: group.x1 - group.x0 - 8,
                 overflow: "hidden",
@@ -164,7 +162,6 @@ const ResponsiveTreemap: React.FC<Props> = ({
           );
         })}
 
-      {/* treemap */}
       {leaves.map((leaf, i) => {
         const { x0, y0, x1, y1, data } = leaf;
         const w = Math.max(0, x1 - x0);
@@ -177,13 +174,13 @@ const ResponsiveTreemap: React.FC<Props> = ({
         const minFontSize = 9;
         const fontSize = Math.max(
           minFontSize,
-          (w + h) * 0.05 * boxSizeNormalized
+          (w + h) * 0.05 * boxSizeNormalized,
         );
 
         return (
           <div
             key={i}
-            className="absolute flex flex-col items-center justify-center text-black text-center"
+            className="absolute flex flex-col items-center justify-center text-black text-center "
             style={{
               left: x0,
               top: y0,
@@ -199,7 +196,7 @@ const ResponsiveTreemap: React.FC<Props> = ({
               <>
                 <img
                   src={data.image_url}
-                  className="w-[full] h-[40%] object-contain duration-300 ease-in-out hover:scale-[1.5] hover:z-[100]"
+                  className="w-[full] h-[40%] object-contain duration-300 ease-in-out hover:scale-[1.5] z-10 hover:z-[15]"
                 />
                 <div>
                   {data.change != null
